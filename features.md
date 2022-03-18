@@ -32,8 +32,7 @@
   - members
 - Matches
   - Id
-  - Date
-  - Time
+  - TimeStamp
   - Venue
   - Result
   - Teams
