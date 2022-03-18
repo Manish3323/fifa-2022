@@ -29,16 +29,12 @@ export const joinGroup = async (groupData: Group, memberId: number) => {
 };
 
 export const createNewGroupAndJoin = async (groupName: string, memberId: number) => {
-  const groupExists = await groupByName(groupName)
-  if(!!groupExists) {
-    throw Error(`Group ${groupName} already exist.`);
-  }
   let { data, error } = await supabase.from("Groups").insert(
     {
       name: groupName,
       members: [memberId],
     }
   );
-  if (error) throw Error(`Failed to create Group ${groupName}.`);
+  if (error) throw Error(`Failed to create Group ${groupName}. reason: ${error.message}`);
   return data
 };
