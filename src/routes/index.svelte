@@ -1,32 +1,55 @@
-<script context="module">
+<script context="module" lang="ts">
 	export const prerender = true;
-</script>
-
-<script>
-	import Counter from '$lib/Counter.svelte';
+	import predictions from './jsons/predictions.json';
+	console.log(predictions.response);
+	export const list = predictions.response;
+	let isBooped = false;
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Upcoming Match</title>
 </svelte:head>
 
 <section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
+	{#each list as fixture}
+		<h2>{fixture.teams.home.name} v/s {fixture.teams.away.name}</h2>
+		<div class="flex-space-row">
+			<img alt={'home team'} src={fixture.teams.home.logo} />
+			<img alt={'away team'} src={fixture.teams.away.logo} />
 		</div>
+	{/each}
+</section>
+<br />
+<section>
+	Odds
+	<ul>
+		{#each list as fixture}
+			<li on:focus={() => (isBooped = true)}>
+				{fixture.teams.home.name}
+				{fixture.predictions.percent.home}
+				{fixture.teams.home.league.form}
+			</li>
+			<li>
+				{fixture.teams.away.name} 
+				{fixture.predictions.percent.away}
+				{fixture.teams.away.league.form}
+			</li>
+			<li>Draw {fixture.predictions.percent.draw}</li>
+		{/each}
+	</ul>
+</section>
 
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
+<section class="flex-center-row">
+	Bet on :
+	{#each list as fixture}
+		<button>
+			<img alt={'home team'} src={fixture.teams.home.logo} />
+		</button>
+		/
+		<button>
+			<img alt={'home team'} src={fixture.teams.away.logo} />
+		</button>
+	{/each}
 </section>
 
 <style>
@@ -38,22 +61,24 @@
 		flex: 1;
 	}
 
-	h1 {
-		width: 100%;
+	.flex-center-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.flex-space-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	img {
+		width: 3em;
+		height: 3em;
+	}
+	button {
+		margin: 1em;
 	}
 
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
 </style>
