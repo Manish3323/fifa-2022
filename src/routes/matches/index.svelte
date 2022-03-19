@@ -1,86 +1,58 @@
 <script context="module" lang="ts">
-  import { user } from "$lib/stores/sessionStore";
-  export const prerender = true;
-  import predictions from "../jsons/predictions.json";
-  import Auth from "../profile/Auth.svelte";
-  export const list = predictions.response;
+	import { user } from '$lib/stores/sessionStore';
+	export const prerender = true;
+	import predictions from '../jsons/predictions.json';
+	import Auth from '../profile/Auth.svelte';
+	export const list = predictions.response;
 </script>
 
-<svelte:head>
-  <title>Upcoming Match</title>
-</svelte:head>
 {#if $user}
-  <section>
-    {#each list as fixture}
-      <h2>{fixture.teams.home.name} v/s {fixture.teams.away.name}</h2>
-      <div class="flex-space-row">
-        <img alt={"home team"} src={fixture.teams.home.logo} />
-        <img alt={"away team"} src={fixture.teams.away.logo} />
-      </div>
-    {/each}
-  </section>
-  <br />
-  <section>
-    Odds
-    <ul>
-      {#each list as fixture}
-        <li>
-          {fixture.teams.home.name}
-          {fixture.predictions.percent.home}
-          {fixture.teams.home.league.form}
-        </li>
-        <li>
-          {fixture.teams.away.name}
-          {fixture.predictions.percent.away}
-          {fixture.teams.away.league.form}
-        </li>
-        <li>Draw {fixture.predictions.percent.draw}</li>
-      {/each}
-    </ul>
-  </section>
+	{#each list as fixture}
+		<kor-accordion label={`Match : ${fixture.teams.home.name} vs ${fixture.teams.away.name}`}>
+			<kor-card flex-direction="column" flat>
+				<kor-progress-bar
+					value={fixture.predictions.percent.home.split('%')[0]}
+					show-progress
+					info={fixture.teams.home.league.form}
+					label={fixture.teams.home.name}
+					size="s"
+				/>
+				<kor-progress-bar
+					value={fixture.predictions.percent.away.split('%')[0]}
+					show-progress
+					info={fixture.teams.away.league.form}
+					label={fixture.teams.away.name}
+					size="s"
+				/>
+				<kor-progress-bar
+					value={fixture.predictions.percent.draw.split('%')[0]}
+					show-progress
+					label="Draw odds"
+					size="s"
+				/>
+				<kor-card slot="footer">
+					<kor-radio-button label={fixture.teams.home.name} />
+					<kor-radio-button label={fixture.teams.away.name} />
+					<kor-radio-button active label="draw" />
+					<kor-button slot="footer" active label="Save Bet" />
+				</kor-card>
+			</kor-card>
+		</kor-accordion>
+	{/each}
 
-  <section class="flex-center-row">
-    Bet on :
-    {#each list as fixture}
-      <button>
-        <img alt={"home team"} src={fixture.teams.home.logo} />
-      </button>
-      /
-      <button>
-        <img alt={"home team"} src={fixture.teams.away.logo} />
-      </button>
-    {/each}
-  </section>
+	<!-- <section class="flex-center-row">
+		Bet on :
+		{#each list as fixture}
+			<button>
+				<img alt={'home team'} src={fixture.teams.home.logo} />
+			</button>
+			/
+			<button>
+				<img alt={'home team'} src={fixture.teams.away.logo} />
+			</button>
+		{/each}
+	</section> -->
 {:else}
-  <Auth />
+	<Auth />
 {/if}
 
-<style>
-  section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-  }
-
-  .flex-center-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  .flex-space-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  img {
-    width: 3em;
-    height: 3em;
-  }
-  button {
-    margin: 1em;
-  }
-</style>

@@ -3,4 +3,6 @@
 	export const prerender = true;
 </script>
 
-<Matches />
+<kor-page>
+	<Matches />
+</kor-page>

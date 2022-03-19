@@ -1,15 +1,17 @@
 <script>
 	import { page } from '$app/stores';
-	// @ts-ignore
+	import { goto } from '$app/navigation';
 	import logo from './fifalogo.jpeg';
+	import { user } from '$lib/stores/sessionStore';
 	import { supabase } from '$lib/supabase/supabaseClient';
 	let loading = false;
 	async function signOut() {
 		try {
 			loading = true;
 			let { error } = await supabase.auth.signOut();
+			$user = null;
 			if (error) throw error;
-			alert('Logged out.')
+			alert('Logged out.');
 		} catch (error) {
 			alert(error.message);
 		} finally {
@@ -18,132 +20,44 @@
 	}
 </script>
 
-<header>
-	<div class="corner">
-		<a href="https://github.com/manish3323/fifa-2022">
-			<img src={logo} alt="Fifa" />
-		</a>
-	</div>
-
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
-		<ul>
-			
-			<li class:active={$page.url.pathname === '/'}>
-				<a sveltekit:prefetch href="/">Upcoming Match</a>
-			</li>
-			<li class:active={$page.url.pathname === '/about'}>
-				<a sveltekit:prefetch href="/about">Past Matches</a>
-			</li>
-			<li class:active={$page.url.pathname === '/todos'}>
-				<a sveltekit:prefetch href="/todos">Leaderboard</a>
-			</li>
-			<li class:active={$page.url.pathname === '/profile'}>
-				<a sveltekit:prefetch href="/profile">Profile</a>
-			</li>
-		</ul>
-
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
-	</nav>
-
-	<div class="corner">
-		<button href="/" on:click={signOut} disabled={loading}> Sign Out </button>
-	</div>
-</header>
+<kor-app-bar theme="dark" label="Fifa World Cup 2022" {logo}>
+	<kor-tabs>
+		<kor-tab-item
+			on:click={() => goto('/')}
+			label="Upcoming matches"
+			active={$page.url.pathname === '/'}
+		/>
+		<kor-tab-item
+			on:click={() => goto('/about')}
+			label="Leaderboard"
+			active={$page.url.pathname === '/about'}
+		/>
+		<kor-tab-item
+			on:click={() => goto('/todos')}
+			label="My Group"
+			active={$page.url.pathname === '/todos'}
+		/>
+	</kor-tabs>
+	<kor-icon
+		icon="person"
+		color={$page.url.pathname === '/profile' ? 'rgb(var(--accent-1))' : 'var(--text-1)'}
+		on:click={() => goto('/profile')}
+		button
+		slot="functions"
+	/>
+	{#if $user}
+		<kor-icon
+			icon="logout"
+			on:click={signOut}
+			color={'rgb(var(--accent-1))'}
+			button
+			slot="functions"
+		/>
+	{/if}
+</kor-app-bar>
 
 <style>
-	header {
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.corner {
-		width: 3em;
-		height: 3em;
-	}
-	.corner button {
-		width: 5em;
-		height: 3em;
-	}
-	.corner a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.corner img {
-		width: 4em;
-		height: 4em;
-		object-fit: scale-down;
-	}
-
-	nav {
-		display: flex;
-		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
-	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
-	path {
-		fill: var(--background);
-	}
-
-	ul {
-		position: relative;
-		padding: 0;
-		margin: 0;
-		height: 3em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-		background: var(--background);
-		background-size: contain;
-	}
-
-	li {
-		position: relative;
-		height: 100%;
-	}
-
-	li.active::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: 0;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--accent-color);
-	}
-
-	nav a {
-		display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 1em;
-		color: var(--heading-color);
-		font-weight: 700;
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		transition: color 0.2s linear;
-	}
-
-	a:hover {
-		color: var(--accent-color);
+	kor-icon:hover {
+		cursor: pointer;
 	}
 </style>
