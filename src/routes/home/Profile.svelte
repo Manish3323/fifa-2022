@@ -1,16 +1,37 @@
 <script lang="ts">
-  import { supabase } from "../../lib/supabase/supabaseClient";
+  import { supabase } from "$lib/supabase/supabaseClient";
   import { user } from "$lib/stores/sessionStore";
   import {
     createNewGroupAndJoin,
     groupByName,
     joinGroup,
   } from "$lib/supabase/Groups";
+  import { onMount } from "svelte";
   let loading = true;
   let userData = null;
   let username = null;
   let groupName = "";
   let option = -999;
+
+  onMount(() => {
+    const subscription1 = supabase.from("Groups").on("INSERT", () => {
+      console.log('group inserted');
+      getProfile();
+    }).subscribe();
+    const subscription2 = supabase.from("Groups").on("UPDATE", () => {
+      console.log('group updated');
+      getProfile();
+    }).subscribe();
+    const subscription3 = supabase.from("Users").on("INSERT", () => {
+      getProfile();
+    }).subscribe();
+    return () => {
+      subscription1.unsubscribe().receive('ok', ()=> console.log('unsubscribed'));;
+      subscription2.unsubscribe().receive('ok', ()=> console.log('unsubscribed'));
+      subscription3.unsubscribe().receive('ok', ()=> console.log('unsubscribed'));
+    }
+  });
+
   async function getProfile() {
     try {
       loading = true;
@@ -43,13 +64,15 @@
     try {
       loading = true;
       if (option === 1) {
-        const groupData = await createNewGroupAndJoin(groupName, userData.id);
+        const groupData = await createNewGroupAndJoin(groupName, userData);
+        if (groupData) alert(`Successfully created group ${groupData.name}`);
       }
       if (option === 2) {
         let data = await groupByName(groupName);
         //check if group exists, if yes then join else throw alert group doesn't exist
         if (data) {
-          const groupData = await joinGroup(data, userData.id);
+          const groupData = await joinGroup(data, userData);
+          if (groupData) alert(`Successfully joined group ${groupData.name}`);
         }
       }
     } catch (error) {
@@ -65,9 +88,6 @@
       const updates = {
         name: username,
         email: user.email,
-        created_at: new Date(),
-        current_score: 0,
-        groupIds: [],
       };
       let { error } = await supabase.from("Users").upsert(updates, {
         returning: "minimal", // Don't return the value after inserting
