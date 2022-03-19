@@ -39,19 +39,6 @@
 			</kor-card>
 		</kor-accordion>
 	{/each}
-
-	<!-- <section class="flex-center-row">
-		Bet on :
-		{#each list as fixture}
-			<button>
-				<img alt={'home team'} src={fixture.teams.home.logo} />
-			</button>
-			/
-			<button>
-				<img alt={'home team'} src={fixture.teams.away.logo} />
-			</button>
-		{/each}
-	</section> -->
 {:else}
 	<Auth />
 {/if}

@@ -1,4 +1,5 @@
 <script>
+	import '@kor-ui/kor/kor-styles.css';
 	import Header from '$lib/header/Header.svelte';
 	import '../app.css';
 </script>
