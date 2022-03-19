@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import Home from './home/index.svelte'
+	import Matches from './matches/index.svelte'
 	export const prerender = true;
 </script>
 
-<Home />
+<Matches />

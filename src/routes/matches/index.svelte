@@ -2,7 +2,7 @@
   import { user } from "$lib/stores/sessionStore";
   export const prerender = true;
   import predictions from "../jsons/predictions.json";
-  import Auth from "../home/Auth.svelte";
+  import Auth from "../profile/Auth.svelte";
   export const list = predictions.response;
 </script>
 

@@ -30,17 +30,18 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
+			
 			<li class:active={$page.url.pathname === '/'}>
-				<a sveltekit:prefetch href="/">Home</a>
-			</li>
-			<li class:active={$page.url.pathname === '/matches'}>
-				<a sveltekit:prefetch href="/matches">Upcoming Match</a>
+				<a sveltekit:prefetch href="/">Upcoming Match</a>
 			</li>
 			<li class:active={$page.url.pathname === '/about'}>
 				<a sveltekit:prefetch href="/about">Past Matches</a>
 			</li>
 			<li class:active={$page.url.pathname === '/todos'}>
 				<a sveltekit:prefetch href="/todos">Leaderboard</a>
+			</li>
+			<li class:active={$page.url.pathname === '/profile'}>
+				<a sveltekit:prefetch href="/profile">Profile</a>
 			</li>
 		</ul>
 
