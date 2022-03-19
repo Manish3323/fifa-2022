@@ -1,10 +1,7 @@
-<script>
-	import '@kor-ui/kor/kor-styles.css';
+<script context="module">
 	import Header from '$lib/header/Header.svelte';
 	import '../app.css';
 </script>
-
-<Header />
 
 <main>
 	<slot />

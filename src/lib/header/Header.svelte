@@ -20,7 +20,7 @@
 	}
 </script>
 
-<kor-app-bar theme="dark" label="Fifa World Cup 2022" {logo}>
+<kor-app-bar label="Fifa World Cup 2022" {logo}>
 	<kor-tabs>
 		<kor-tab-item
 			on:click={() => goto('/')}

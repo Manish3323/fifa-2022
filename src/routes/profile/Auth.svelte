@@ -16,7 +16,7 @@
 	};
 </script>
 
-<kor-page theme="dark">
+<kor-page>
 	<kor-pane icon="login" label="Magic signin link">
 		<kor-textarea
 			type="email"
