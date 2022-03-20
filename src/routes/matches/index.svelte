@@ -8,7 +8,7 @@
 
 {#if $user}
 	{#each list as fixture}
-		<kor-accordion label={`Match : ${fixture.teams.home.name} vs ${fixture.teams.away.name}`}>
+		<kor-accordion label={`${fixture.teams.home.name} vs ${fixture.teams.away.name}`}>
 			<kor-card flex-direction="column" flat>
 				<kor-progress-bar
 					value={fixture.predictions.percent.home.split('%')[0]}

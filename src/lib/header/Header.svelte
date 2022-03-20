@@ -21,23 +21,6 @@
 </script>
 
 <kor-app-bar label="Fifa World Cup 2022" {logo}>
-	<kor-tabs>
-		<kor-tab-item
-			on:click={() => goto('/')}
-			label="Upcoming matches"
-			active={$page.url.pathname === '/'}
-		/>
-		<kor-tab-item
-			on:click={() => goto('/about')}
-			label="Leaderboard"
-			active={$page.url.pathname === '/about'}
-		/>
-		<kor-tab-item
-			on:click={() => goto('/todos')}
-			label="My Group"
-			active={$page.url.pathname === '/todos'}
-		/>
-	</kor-tabs>
 	<kor-icon
 		icon="person"
 		color={$page.url.pathname === '/profile' ? 'rgb(var(--accent-1))' : 'var(--text-1)'}
@@ -53,8 +36,23 @@
 			button
 			slot="functions"
 		/>
-	{/if}
-</kor-app-bar>
+	{/if}</kor-app-bar
+>
+<kor-nav-bar style="width: '-webkit-fill-available';">
+	<kor-tabs>
+		<kor-tab-item on:click={() => goto('/')} label="Macthes" active={$page.url.pathname === '/'} />
+		<kor-tab-item
+			on:click={() => goto('/about')}
+			label="Leaderboard"
+			active={$page.url.pathname === '/about'}
+		/>
+		<kor-tab-item
+			on:click={() => goto('/todos')}
+			label="My Group"
+			active={$page.url.pathname === '/todos'}
+		/>
+	</kor-tabs>
+</kor-nav-bar>
 
 <style>
 	kor-icon:hover {
