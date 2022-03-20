@@ -1,5 +1,4 @@
 <script>
-	import 'https://cdn.jsdelivr.net/npm/@kor-ui/kor/kor-styles.css';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import logo from './fifalogo.jpeg';
