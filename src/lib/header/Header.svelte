@@ -40,7 +40,7 @@
 >
 <kor-nav-bar style="width: '-webkit-fill-available';">
 	<kor-tabs>
-		<kor-tab-item on:click={() => goto('/')} label="Macthes" active={$page.url.pathname === '/'} />
+		<kor-tab-item on:click={() => goto('/')} label="Macthes" active={$page.url.pathname === ''} />
 		<kor-tab-item
 			on:click={() => goto('/about')}
 			label="Leaderboard"
