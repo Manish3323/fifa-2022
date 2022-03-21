@@ -12,6 +12,7 @@
 			$user = null;
 			if (error) throw error;
 			alert('Logged out.');
+			goto('/');
 		} catch (error) {
 			alert(error.message);
 		} finally {
@@ -36,23 +37,23 @@
 			button
 			slot="functions"
 		/>
-	{/if}</kor-app-bar
->
-<kor-nav-bar style="width: '-webkit-fill-available';">
-	<kor-tabs>
-		<kor-tab-item on:click={() => goto('/')} label="Macthes" active={$page.url.pathname === ''} />
-		<kor-tab-item
-			on:click={() => goto('/about')}
-			label="Leaderboard"
-			active={$page.url.pathname === '/about'}
-		/>
-		<kor-tab-item
-			on:click={() => goto('/todos')}
-			label="My Group"
-			active={$page.url.pathname === '/todos'}
-		/>
-	</kor-tabs>
-</kor-nav-bar>
+	{/if}
+	<kor-nav-bar>
+		<kor-tabs>
+			<kor-tab-item on:click={() => goto('/')} label="Matches" active={$page.url.pathname === '/'} />
+			<kor-tab-item
+				on:click={() => goto('/about')}
+				label="Leaderboard"
+				active={$page.url.pathname === '/about'}
+			/>
+			<kor-tab-item
+				on:click={() => goto('/todos')}
+				label="My Group"
+				active={$page.url.pathname === '/todos'}
+			/>
+		</kor-tabs>
+	</kor-nav-bar>
+</kor-app-bar>
 
 <style>
 	kor-icon:hover {
