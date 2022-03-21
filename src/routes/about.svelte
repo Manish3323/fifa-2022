@@ -1,5 +1,6 @@
 <script>
 	import { browser, dev } from '$app/env';
+import Header from './header/Header.svelte';
 
 	// we don't need any JS on this page, though we'll load
 	// it in dev so that we get hot module replacement...
@@ -18,6 +19,7 @@
 	<title>About</title>
 </svelte:head>
 
+<Header />
 <div class="content">
 	<h1>About this app</h1>
 

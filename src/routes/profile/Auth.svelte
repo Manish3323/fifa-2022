@@ -16,20 +16,24 @@
 	};
 </script>
 
-<kor-page>
-	<kor-pane icon="login" label="Magic signin link">
-		<kor-textarea
-			type="email"
-			label="email"
-			on:change={(event) => (email = event.target.value)}
-			value={email ? email : ''}
-		/>
-		<kor-button
-			slot="footer"
-			on:click={handleLogin}
-			icon="email"
-			disabled={email === ''}
-			label="Send"
-		/>
-	</kor-pane>
-</kor-page>
+<kor-pane icon="login" label="Magic signin link">
+	<kor-textarea
+		type="email"
+		label="email"
+		on:change={(event) => (email = event.target.value)}
+		value={email ? email : ''}
+	/>
+	<kor-button
+		slot="footer"
+		on:click={handleLogin}
+		icon="email"
+		disabled={email === ''}
+		label="Send"
+	/>
+</kor-pane>
+
+<style>
+	kor-pane {
+		width: 100%	;
+	}
+</style>

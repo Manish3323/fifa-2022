@@ -1,15 +1,14 @@
-<script context="module">
-	import Header from '$lib/header/Header.svelte';
+<script>
+	import Header from './header/Header.svelte';
 	import '@kor-ui/kor/kor-styles.css';
 </script>
 
-<Header />
 <main>
 	<slot />
 </main>
 <footer>
 	<p>
-		Made using <a href="https://kit.svelte.dev">svelte-kit</a>,
+		Made with ❤️ using <a href="https://kit.svelte.dev">svelte-kit</a>,
 		<a href="https://kor-ui.com/">kor-ui</a>
 	</p>
 </footer>

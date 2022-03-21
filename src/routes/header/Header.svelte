@@ -38,25 +38,20 @@
 			slot="functions"
 		/>
 	{/if}
-	<kor-nav-bar>
-		<kor-tabs>
-			<kor-tab-item on:click={() => goto('/')} label="Matches" active={$page.url.pathname === '/'} />
-			<kor-tab-item
-				on:click={() => goto('/about')}
-				label="Leaderboard"
-				active={$page.url.pathname === '/about'}
-			/>
-			<kor-tab-item
-				on:click={() => goto('/todos')}
-				label="My Group"
-				active={$page.url.pathname === '/todos'}
-			/>
-		</kor-tabs>
-	</kor-nav-bar>
 </kor-app-bar>
+<kor-nav-bar>
+	<kor-tabs>
+		<kor-tab-item on:click={() => goto('/')} label="Matches" active={$page.url.pathname === '/'} />
+		<kor-tab-item
+			on:click={() => goto('/about')}
+			label="Leaderboard"
+			active={$page.url.pathname === '/about'}
+		/>
+		<kor-tab-item
+			on:click={() => goto('/todos')}
+			label="My Group"
+			active={$page.url.pathname === '/todos'}
+		/>
+	</kor-tabs>
+</kor-nav-bar>
 
-<style>
-	kor-icon:hover {
-		cursor: pointer;
-	}
-</style>
