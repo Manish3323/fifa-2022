@@ -1,12 +1,23 @@
 <script context="module" lang="ts">
-	import { user } from '$lib/stores/sessionStore';
+	import { userStore } from '$lib/stores/userStore';
+	import { saveBet } from '$lib/supabase/Votes';
+	import type { User } from '../../lib/supabase/user';
 	export const prerender = true;
 	import predictions from '../jsons/predictions.json';
 	import Auth from '../profile/Auth.svelte';
 	export const list = predictions.response;
+	let betOn = '';
+	let user: User = null;
+	userStore.subscribe((userData) => {
+		user = userData;
+	});
+	const bet = async (matchId: number) => {
+		const voteSaved = await saveBet(user.id, matchId, betOn);
+		if (voteSaved) alert('Vote registered.');
+	};
 </script>
 
-{#if $user}
+{#if user}
 	{#each list as fixture}
 		<kor-accordion label={`${fixture.teams.home.name} vs ${fixture.teams.away.name}`}>
 			<kor-card flex-direction="column" flat>
@@ -31,10 +42,21 @@
 					size="s"
 				/>
 				<kor-card slot="footer">
-					<kor-radio-button label={fixture.teams.home.name} />
-					<kor-radio-button label={fixture.teams.away.name} />
-					<kor-radio-button active label="draw" />
-					<kor-button slot="footer" active label="Save Bet" />
+					<kor-radio-button
+						active={betOn === fixture.teams.home.name}
+						label={fixture.teams.home.name}
+					/>
+					<kor-radio-button
+						active={betOn === fixture.teams.away.name}
+						label={fixture.teams.away.name}
+					/>
+					<kor-radio-button active={betOn === 'draw'} label="draw" />
+					<kor-button
+						on:click={() => bet(1)}
+						slot="footer"
+						active={betOn !== ''}
+						label="Save Bet"
+					/>
 				</kor-card>
 			</kor-card>
 		</kor-accordion>
@@ -42,4 +64,3 @@
 {:else}
 	<Auth />
 {/if}
-

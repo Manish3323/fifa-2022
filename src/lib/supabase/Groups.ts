@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient";
+import type { User } from "./user";
 
 type Group = {
   id: string;
@@ -7,14 +8,6 @@ type Group = {
   created_at: string;
 };
 
-type User = {
-  id: number;
-  created_at: string;
-  name: string;
-  current_score: number;
-  email: string;
-  groupIds: number[];
-};
 export const groupByName = async (name: string) => {
   const { data, error } = await supabase
     .from("Groups")

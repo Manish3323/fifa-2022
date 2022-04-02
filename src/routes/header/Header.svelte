@@ -2,14 +2,18 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import logo from './fifalogo.jpeg';
-	import { user } from '$lib/stores/sessionStore';
+	import { userStore } from '$lib/stores/userStore';
 	import { supabase } from '$lib/supabase/supabaseClient';
 	let loading = false;
+	let user = null;
+
+	userStore.subscribe((userData) => (user = userData));
+
 	async function signOut() {
 		try {
 			loading = true;
 			let { error } = await supabase.auth.signOut();
-			$user = null;
+			userStore.reset();
 			if (error) throw error;
 			alert('Logged out.');
 			goto('/');
@@ -22,6 +26,12 @@
 </script>
 
 <kor-app-bar label="Fifa World Cup 2022" {logo}>
+	<kor-text
+		on:click={() => goto('/leaderboard')}
+		slot="functions"
+		size="header-1"
+		color="rgb(var(--functional-blue))">{2000}</kor-text
+	>
 	<kor-icon
 		icon="person"
 		color={$page.url.pathname === '/profile' ? 'rgb(var(--accent-1))' : 'var(--text-1)'}
@@ -29,7 +39,7 @@
 		button
 		slot="functions"
 	/>
-	{#if $user}
+	{#if user}
 		<kor-icon
 			icon="logout"
 			on:click={signOut}
@@ -43,15 +53,14 @@
 	<kor-tabs>
 		<kor-tab-item on:click={() => goto('/')} label="Matches" active={$page.url.pathname === '/'} />
 		<kor-tab-item
-			on:click={() => goto('/about')}
+			on:click={() => goto('/leaderboard')}
 			label="Leaderboard"
-			active={$page.url.pathname === '/about'}
+			active={$page.url.pathname === '/leaderboard'}
 		/>
 		<kor-tab-item
-			on:click={() => goto('/todos')}
+			on:click={() => goto('/group')}
 			label="My Group"
-			active={$page.url.pathname === '/todos'}
+			active={$page.url.pathname === '/group'}
 		/>
 	</kor-tabs>
 </kor-nav-bar>
-

@@ -1,11 +1,20 @@
 <script>
+	import { userStore } from '$lib/stores/userStore';
 	import Header from './header/Header.svelte';
 	import '@kor-ui/kor/kor-styles.css';
 </script>
 
-<main>
-	<slot />
-</main>
+{#await userStore.init()}
+	<p>waiting for the promise to resolve...</p>
+{:then}
+	<main>
+		<Header />
+		<slot />
+	</main>
+{:catch error}
+	<p>Something went wrong: {error.message}</p>
+{/await}
+
 <footer>
 	<p>
 		Made with ❤️ using <a href="https://kit.svelte.dev">svelte-kit</a>,

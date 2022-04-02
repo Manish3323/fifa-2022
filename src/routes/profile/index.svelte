@@ -1,17 +1,14 @@
 <script context="module" lang="ts">
-  import { user } from "../../lib/stores/sessionStore";
-  import { supabase } from "../../lib/supabase/supabaseClient";
-  import Auth from "./Auth.svelte";
-  import Profile from "./Profile.svelte";
-  import Header from "../header/Header.svelte";
-  user.set(supabase.auth.user());
-  supabase.auth.onAuthStateChange((_, session) => {
-    user.set(session.user);
-  });
+	import { userStore } from '../../lib/stores/userStore';
+	import Auth from './Auth.svelte';
+	import Profile from './Profile.svelte';
+	let user = null;
+
+	userStore.subscribe((userData) => (user = userData));
 </script>
-<Header />
-{#if $user}
-  <Profile />
+
+{#if user}
+	<Profile />
 {:else}
-  <Auth />
+	<Auth />
 {/if}

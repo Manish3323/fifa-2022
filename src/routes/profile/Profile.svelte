@@ -1,37 +1,17 @@
 <script lang="ts">
 	import { supabase } from '$lib/supabase/supabaseClient';
-	import { user } from '$lib/stores/sessionStore';
+	import { userStore } from '$lib/stores/userStore';
 	import { createNewGroupAndJoin, groupByName, joinGroup } from '$lib/supabase/Groups';
 	import { onMount } from 'svelte';
-	let loading = true;
-	let userData = null;
+	let loading = false;
+	let user = null;
 	let username = null;
 	let groupName = '';
 	let option = -999;
-
-	onMount(async () => {
-		await getProfile();
+	userStore.subscribe((userData) => {
+		user = userData;
+		username = userData.name;
 	});
-
-	async function getProfile() {
-		try {
-			loading = true;
-			let { data, error, status } = await supabase
-				.from('Users')
-				.select('*')
-				.eq('email', $user.email)
-				.single();
-			if (error && status !== 406) throw error;
-			if (data) {
-				userData = data;
-				username = data.name;
-			}
-		} catch (error) {
-			alert(error.message);
-		} finally {
-			loading = false;
-		}
-	}
 
 	async function createOrJoinGroup() {
 		if (option === -999) {
@@ -44,14 +24,14 @@
 		try {
 			loading = true;
 			if (option === 1) {
-				const groupData = await createNewGroupAndJoin(groupName, userData);
+				const groupData = await createNewGroupAndJoin(groupName, user);
 				if (groupData) alert(`Successfully created group ${groupData.name}`);
 			}
 			if (option === 2) {
 				let data = await groupByName(groupName);
 				//check if group exists, if yes then join else throw alert group doesn't exist
 				if (data) {
-					const groupData = await joinGroup(data, userData);
+					const groupData = await joinGroup(data, user);
 					if (groupData) alert(`Successfully joined group ${groupData.name}`);
 				}
 			}
@@ -96,19 +76,21 @@
 		</kor-card>
 		<kor-divider spacing="l" />
 	{/if}
-	<kor-card flat label="Update Profile Name">
-		<kor-input label="Email"  value={$user.email} disabled/>
-		<kor-input
-			label="Name"
-			on:change={(event) => (username = event.target.value)}
-      status={userData && userData.name ? 'success' : 'warning'}
-			value={userData ? userData.name : ''}
-		/>
-		<kor-button
-			disabled={loading}
-			on:click={updateProfile}
-			slot="footer"
-			label={loading ? 'Loading ...' : 'Update username'}
-		/>
-	</kor-card>
+	{#if user}
+		<kor-card flat label="Update Profile Name">
+			<kor-input label="Email" value={user.email} disabled />
+			<kor-input
+				label="Name"
+				on:change={(event) => (username = event.target.value)}
+				status={user && user.name ? 'success' : 'warning'}
+				value={user ? user.name : ''}
+			/>
+			<kor-button
+				disabled={loading}
+				on:click={updateProfile}
+				slot="footer"
+				label={loading ? 'Loading ...' : 'Update username'}
+			/>
+		</kor-card>
+	{/if}
 </kor-card>
