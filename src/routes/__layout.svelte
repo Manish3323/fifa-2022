@@ -5,7 +5,7 @@
 </script>
 
 {#await userStore.init()}
-	<p>waiting for the promise to resolve...</p>
+	<kor-spinner size="l"/>
 {:then}
 	<main>
 		<Header />
@@ -17,7 +17,7 @@
 
 <footer>
 	<p>
-		Made with ❤️ using <a href="https://kit.svelte.dev">svelte-kit</a>,
+		Built using <a href="https://kit.svelte.dev">svelte-kit</a>
 		<a href="https://kor-ui.com/">kor-ui</a>
 	</p>
 </footer>

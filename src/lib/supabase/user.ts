@@ -7,7 +7,16 @@ export type User = {
 	current_score: number;
 	email: string;
 	groupIds: number[];
+	Votes: Vote[]
 };
+
+export interface Vote {
+	id: number;
+	created_at: string;
+	vote: string;
+	userId: number;
+	matchId: number;
+}
 
 export const leaderboardUsers = async () => {
 	const { data, error } = await supabase
@@ -22,4 +31,4 @@ export const leaderboardUsers = async () => {
 };
 
 export const getUserByMail = async (email: string) =>
-	await supabase.from<User>('Users').select('*').eq('email', email).single();
+	await supabase.from<User>('Users').select('*, Votes(*)').eq('email', email).single();
