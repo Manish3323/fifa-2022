@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { browser, dev } from '$app/env';
-	import { leaderboardUsers } from '$lib/supabase/user';
-	import type { User } from '$lib/supabase/user';
+	import { leaderboardUsers, type User } from '$lib/supabase/User';
+	// import type { User } from '$lib/supabase/user';
 
 	// we don't need any JS on this page, though we'll load
 	// it in dev so that we get hot module replacement...
@@ -13,7 +13,7 @@
 	// since there's no dynamic data here, we can prerender
 	// it so that it gets served as a static asset in prod
 	export const prerender = true;
-	export let users: User[] = []
+	let users: User[] = []
 	export async function load() {
 		users = await leaderboardUsers();
 		return users
