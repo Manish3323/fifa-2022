@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient';
+import { supabase } from '$lib/supabase/supabaseClient';
 
 export type User = {
 	id: number;
@@ -8,6 +8,7 @@ export type User = {
 	email: string;
 	groupIds: number[];
 	Votes: Vote[]
+	admin: boolean
 };
 
 export interface Vote {

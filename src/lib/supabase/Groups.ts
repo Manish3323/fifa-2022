@@ -1,5 +1,5 @@
-import { supabase } from "./supabaseClient";
-import type { User } from "./user";
+import { supabase } from "$lib/supabase/supabaseClient";
+import type { User } from "./User";
 
 type Group = {
   id: string;
