@@ -26,12 +26,6 @@
 </script>
 
 <kor-app-bar label="Fifa World Cup 2022" {logo}>
-	<kor-text
-		on:click={() => goto('/leaderboard')}
-		slot="functions"
-		size="header-1"
-		color="rgb(var(--functional-blue))">{2000}</kor-text
-	>
 	<kor-icon
 		icon="person"
 		color={$page.url.pathname === '/profile' ? 'rgb(var(--accent-1))' : 'var(--text-1)'}
@@ -40,6 +34,12 @@
 		slot="functions"
 	/>
 	{#if user}
+		<kor-text
+			on:click={() => goto('/leaderboard')}
+			slot="functions"
+			size="header-1"
+			color="rgb(var(--functional-blue))">{user.current_score}</kor-text
+		>
 		<kor-icon
 			icon="logout"
 			on:click={signOut}
@@ -57,10 +57,10 @@
 			label="Leaderboard"
 			active={$page.url.pathname === '/leaderboard'}
 		/>
-		<kor-tab-item
+		<!-- <kor-tab-item
 			on:click={() => goto('/group')}
 			label="My Group"
 			active={$page.url.pathname === '/group'}
-		/>
+		/> -->
 	</kor-tabs>
 </kor-nav-bar>

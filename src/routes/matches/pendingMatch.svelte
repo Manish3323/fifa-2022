@@ -29,7 +29,7 @@
 			alert('Not allowed!!!');
 		}
 		try {
-			const updatedResult = await updateMatchResult(fixture.id, result);
+			const updatedResult = await updateMatchResult(fixture.id, result, 'Finished');
 			if (updatedResult) alert('Result updated.');
 		} catch (e) {
 			alert(e.message);

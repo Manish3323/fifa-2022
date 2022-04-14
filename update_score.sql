@@ -1,0 +1,44 @@
+
+-- CREATE TRIGGER tr_update_score
+--   AFTER UPDATE
+--   ON "Events"
+--   FOR EACH ROW
+--   WHEN (NEW."status" = 'Finished')
+--   EXECUTE PROCEDURE update_scores();
+
+-- Create function update_scores()  
+-- returns trigger 
+-- language plpgsql  
+-- as  
+-- $$  
+-- Declare  
+-- Begin  
+--   UPDATE "Users" as U2
+--   SET current_score = V."current_score" + V."odds" * 100
+--   FROM 
+--   (
+--     SELECT current_score, U.id, name, vote, result,
+--     CASE 
+--       WHEN result = E.home THEN E."odd_1"
+--       WHEN result = E.away THEN E."odd_2"
+--       ELSE E."odd_draw"
+--     END AS odds
+--     from "Users" as U
+--     INNER JOIN (
+--         SELECT "userId", "vote", "matchId" from "Votes" 
+--       ) as T
+--     ON U.id = T."userId"
+--     INNER JOIN (
+--         SELECT * from "Events" WHERE status = 'Finished'
+--       ) as E
+--     ON
+--       T."matchId" = E."id"
+--       and T."vote" = E."result"
+--   ) as V
+--   where U2.id = V."id";
+--   UPDATE "Events" 
+--   SET status = 'Completed'
+--   WHERE status = 'Finished';
+-- RETURN NUll;
+-- End
+-- $$; 

@@ -22,10 +22,10 @@ export const getMatches = async () => {
 	return data as MatchType[];
 };
 
-export const updateMatchResult = async (matchId: number, result: string) => {
+export const updateMatchResult = async (matchId: number, result: string, status: string) => {
 	const { error } = await supabase
 		.from('Events')
-		.update({ result: result })
+		.update({ result: result, status: status })
 		.match({ id: matchId });
 	if (error) alert(`Failed to update result. reason: ${error.message}`);
 	return true;

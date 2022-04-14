@@ -5,7 +5,7 @@
 </script>
 
 {#await userStore.init()}
-	<kor-spinner size="l"/>
+	<kor-spinner size="l" />
 {:then}
 	<main>
 		<Header />
@@ -16,6 +16,15 @@
 {/await}
 
 <footer>
+	<details>
+		<summary>Scoring System</summary>
+		<kor-text>
+			For each event, each team has arbitary odds of winning which are provided by odds bookmakers.
+		</kor-text><br />
+		<kor-text>
+			If your team has won the match, you get 100 * odds_points points once the event is over.
+		</kor-text>
+	</details>
 	<p>
 		Built using <a href="https://kit.svelte.dev">svelte-kit</a>
 		<a href="https://kor-ui.com/">kor-ui</a>
