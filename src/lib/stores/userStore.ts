@@ -5,11 +5,10 @@ import { getUserByMail, type User } from '../supabase/User';
 const createUserStore = () => {
 	const userData = null;
 	const { subscribe, set } = writable<User>(userData);
-
+	const authenticatedUser = supabase.auth.user();
 	return {
 		subscribe,
 		init: async () => {
-			const authenticatedUser = supabase.auth.user();
 			supabase.auth.onAuthStateChange(async () => {
 				const { data } = await getUserByMail(authenticatedUser?.email);
 				set(data);
@@ -20,7 +19,11 @@ const createUserStore = () => {
 				set(data);
 			}
 		},
-		reset: () => set(null)
+		reset: () => set(null),
+		update: async () => {
+			const { data } = await getUserByMail(authenticatedUser?.email);
+			set(data);
+		}
 	};
 };
 

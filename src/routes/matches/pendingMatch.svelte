@@ -2,6 +2,7 @@
 	import type { User } from '$lib/supabase/User';
 	import { updateMatchResult, type MatchType } from '$lib/supabase/Matches';
 	import { saveBet } from '$lib/supabase/Votes';
+	import { userStore } from '$lib/stores/userStore';
 	export let fixture: MatchType;
 	export let user: User;
 	export let disableBetting: boolean = false;
@@ -19,6 +20,7 @@
 		try {
 			const voteSaved = await saveBet(user.id, match.id, betOn);
 			if (voteSaved) alert('Vote registered.');
+			await userStore.update();
 		} catch (e) {
 			alert(e.message);
 			console.log(e.message);
